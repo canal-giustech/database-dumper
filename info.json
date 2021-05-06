@@ -1,0 +1,12 @@
+{
+    "dumps": {
+        "5f8e44229db1c8e69113519596cfc51f": "s3://smartaksis-postgres-dumps/2021/05/02/5f8e44229db1c8e69113519596cfc51f.dump",
+        "238ee048c3d8c3806b23af45fe8a6d49": "s3://smartaksis-postgres-dumps/2021/05/02/238ee048c3d8c3806b23af45fe8a6d49.dump",
+        "1e281730c2accc482154e04b145a0940": "s3://smartaksis-postgres-dumps/2021/05/02/1e281730c2accc482154e04b145a0940.dump"
+    },
+    "identifiers": {
+        "20210502_09_43_29": "5f8e44229db1c8e69113519596cfc51f",
+        "20210502_09_44_16": "238ee048c3d8c3806b23af45fe8a6d49",
+        "20210502_09_44_36": "1e281730c2accc482154e04b145a0940"
+    }
+}
