@@ -4,14 +4,23 @@ dumper:
 restore:
 	@go build -v -ldflags '-d -s -w' -a -tags netgo -installsuffix netgo -o main ./cmd/restore.go
 
-clear:
+clear-on-docker:
 	@rm -rf docker/images/dumper/main
+
+clear: clear-on-docker
 	@mv main docker/images/dumper/main
 
-build-generate-docker-dumper: dumper clear
-	@docker build -t go-dumper:latest ./docker/images/dumper/
+docker-dumper:
+	@docker build -t giustech/database-dumper ./docker/images/dumper/
 
-build-generate-docker-restore: dumper clear
-	@docker build -t go-restore:latest ./docker/images/dumper/
+docker-restore:
+	@docker build -t giustech/database-restore ./docker/images/dumper/
 
-build-all: build-generate-docker-dumper build-generate-docker-restore
+
+generate-docker-dumper: dumper clear docker-dumper clear-on-docker
+	
+
+generate-docker-restore: dumper clear docker-restore clear-on-docker
+	
+
+all: build-generate-docker-dumper build-generate-docker-restore

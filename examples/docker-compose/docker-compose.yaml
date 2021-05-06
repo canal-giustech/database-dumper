@@ -1,0 +1,56 @@
+version: '3.5'
+
+networks:
+  net-development:
+    driver: bridge
+    
+services:
+  dbpostgres:
+    image: postgres:12
+    command: postgres -c 'max_connections=500'
+    ports:
+      - "5432:5432"
+    networks:
+      - net-development      
+    environment:
+      POSTGRES_USER: giustech_username
+      POSTGRES_PASSWORD: giustech_username_dsv
+      POSTGRES_DB: giustech_db
+
+  dumper:
+    image: giustech/database-dumper
+    depends_on:
+      - dbpostgres
+    networks:
+      - net-development   
+    environment:
+      DB_USER: giustech_username
+      DB_PASSWORD: giustech_username_dsv
+      DB_HOST: dbpostgres
+      DB_PORT: 5432
+      DB_NAME: giustech_db
+      AWS_ACCESS_KEY_ID: AWS_S3_ACCESS_KEY
+      AWS_SECRET_ACCESS_KEY: AWS_S3_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: AWS_DEFAULT_REGION
+      AWS_BUCKET: AWS_BUCKET
+      DUMPER_DIALECT: postgres
+      MAX_SNAPSHOTS: 3
+
+  restore:
+    image: giustech/database-restore
+    depends_on:
+      - dbpostgres
+    networks:
+      - net-development   
+    environment:
+      DB_USER: giustech_username
+      DB_PASSWORD: giustech_username_dsv
+      DB_HOST: dbpostgres
+      DB_NAME: giustech_db
+      DB_PORT: 5432
+      AWS_ACCESS_KEY_ID: AWS_S3_ACCESS_KEY
+      AWS_SECRET_ACCESS_KEY: AWS_S3_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: AWS_DEFAULT_REGION
+      AWS_BUCKET: AWS_BUCKET
+      SNAPSHOT_VERSION: "xxxx_xx_xx_xxxxxx"
+      DUMPER_DIALECT: postgres
